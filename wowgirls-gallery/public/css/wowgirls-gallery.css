@@ -1,0 +1,87 @@
+/**
+ * All of the CSS for your public-facing functionality should be
+ * included in this file.
+ */
+ @media screen and (max-width: 768px) {
+  .masonry {
+    width: 95%;
+    
+  }
+}
+
+ body{
+    background:#222;
+    color:#666;
+  }
+  #header{
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:24px;
+    font-weight:bold;
+    text-align:left;
+    text-indent:35px;
+    margin: 0 auto;
+    width:1200px;
+    margin-bottom:10px;
+  }
+  hr{
+    margin: 20px;
+    border:none;
+    border-top: 1px solid #111;
+    border-bottom: 1px solid #333;
+  }
+  p{
+    color:#444;
+    text-align:left;
+    font-size:10px;
+    margin-left: 20px;
+    margin-bottom: -10px;
+  }
+  a{
+    color:#444;
+  }
+  
+  #container{
+    margin: 0 auto;
+    width:1200px;
+    font-family:Verdana, Geneva, sans-serif;
+    text-align:center;
+  } 
+  img{
+    
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    margin: 15px;
+    max-width:100%; float:left;
+    transition: 1.5s;
+  }
+  
+  
+  .masonry {
+    display: grid;
+    grid-gap: 1em;
+    grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+    grid-auto-rows: 0;
+    transition: 1.5s;
+  }
+@media only screen and (max-width:600px){
+  .masonry {
+    /* grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 150px));
+    max-width: 400px;
+  }
+  img {
+    
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    margin: 0 auto;
+    
+    
+  }
+  #container {
+    margin-left: 15px;
+  }
+ 
+
+}
+  
