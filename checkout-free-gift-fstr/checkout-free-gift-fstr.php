@@ -27,9 +27,55 @@ function fstr_inputs()
     
     register_setting('general', 'fstr_yoga', 'esc_attr');
     add_settings_field('fstr_yoga', '<label for="fstr_yoga">' . __('Yoga Plan ID', 'fstr_yoga') . '</label>', 'fstr_yoga_html', 'general');
+
+
+    /**adding settings option free foodplan/yoga/shoppinglist/homegym settings**/
+
+    register_setting('general', 'yoga_plan', 'esc_attr');
+    add_settings_field('yoga_plan', '<label for="yoga_plan">' . __('Yoga Plan Link', 'yoga_plan') . '</label>', 'yoga_plan_html', 'general');
+
+    register_setting('general', 'homegym', 'esc_attr');
+    add_settings_field('homegym', '<label for="homegym">' . __('Homegym Link', 'homegym') . '</label>', 'homegym_html', 'general');
+
+    register_setting('general', 'panam_food_plan', 'esc_attr');
+    add_settings_field('panam_food_plan', '<label for="panam_food_plan">' . __('Food Plan Link', 'panam_food_plan') . '</label>', 'panam_food_plan_html', 'general');
+
+    register_setting('general', 'shopping_list', 'esc_attr');
+    add_settings_field('shopping_list', '<label for="shopping_list">' . __('Shopping List Link', 'shopping_list') . '</label>', 'shopping_list_html', 'general');
     
 }
 
+/**Adding links to free plans in general settings**/
+function yoga_plan_html()
+{
+    $value = get_option('yoga_plan', '');
+    echo '';
+    echo '<input type="text" id="yoga_plan" name="yoga_plan" placeholder="Yoga Plan Link (ex. 1,5,25)" value="' . $value . '" />';
+    echo '<p class="description" id="timezone-description">Choose the link of the Yoga plan product</p>';
+}
+function homegym_html()
+{
+    $value = get_option('homegym', '');
+    echo '';
+    echo '<input type="text" id="homegym" name="homegym" placeholder="HomeGym Link (ex. 1,5,25)" value="' . $value . '" />';
+    echo '<p class="description" id="timezone-description">Choose the link of the Home Gym product</p>';
+}
+function panam_food_plan_html()
+{
+    $value = get_option('panam_food_plan', '');
+    echo '';
+    echo '<input type="text" id="panam_food_plan" name="panam_food_plan" placeholder="Food Plan Link" value="' . $value . '" />';
+    echo '<p class="description" id="timezone-description">Choose the link of the Food Plan product</p>';
+}
+function shopping_list_html()
+{
+    $value = get_option('shopping_list', '');
+    echo '';
+    echo '<input type="text" id="shopping_list" name="shopping_list" placeholder="Shopping list link (ex. 1,5,25)" value="' . $value . '" />';
+    echo '<p class="description" id="timezone-description">Choose the link of the shoppink list product</p>';
+}
+
+/**end of section**/
 
 function fstr_homegym_html()
 {
@@ -53,77 +99,33 @@ function fstr_yoga_html()
     echo '<p class="description" id="timezone-description">Choose the ID of the Yoga Plan product</p>';
 }
 
-// get range price for free delivery
+// get range price for free delivery - needed for multisite; should add "free delivery amount" option as workaround;
 if (!function_exists('get_free_delivery_price')) {
     function get_free_delivery_price()
     {
         switch (get_current_blog_id()) {
             default:
             case '1':
-                $free = get_option('woocommerce_free_shipping_6_settings');
+                $free = get_option('woocommerce_free_shipping_2_settings');
                 $free = $free['min_amount'];
                 break;
             
-            case '5':
-                $free = get_option('woocommerce_free_shipping_4_settings');
+            case '2':
+                $free = get_option('woocommerce_free_shipping_2_settings');
                 $free = $free['min_amount'];
                 break;
             
-            case '6':
-                $free = get_option('woocommerce_free_shipping_4_settings');
+            case '3':
+                $free = get_option('woocommerce_free_shipping_2_settings');
                 $free = $free['min_amount'];
                 break;
             
-            case '7':
-                $free = get_option('woocommerce_free_shipping_4_settings');
-                $free = $free['min_amount'];
-                break;
-            
-            case '11':
-                $free = get_option('woocommerce_free_shipping_4_settings');
-                $free = $free['min_amount'];
-                break;
-            
-            case '22':
-                $free = get_option('woocommerce_free_shipping_4_settings');
-                $free = $free['min_amount'];
-                break;
-            
-            case '23':
-                $free = get_option('woocommerce_free_shipping_4_settings');
-                $free = $free['min_amount'];
-                break;
-            
-            case '21':
-                $free = get_option('woocommerce_free_shipping_4_settings');
-                $free = $free['min_amount'];
-                break;
-            
-            case '26':
-                $free = get_option('woocommerce_free_shipping_4_settings');
-                $free = $free['min_amount'];
-                break;
-            
-            case '28':
-                $free = get_option('woocommerce_free_shipping_4_settings');
-                $free = $free['min_amount'];
-                break;
-            
-            case '29':
-                $free = get_option('woocommerce_free_shipping_4_settings');
-                $free = $free['min_amount'];
-                break;
-            
-            case '9':
-                $free = get_option('woocommerce_free_shipping_9_settings');
-                $free = $free['min_amount'];
-                break;
-        }
+            } 
         
         return $free;
     }
 }
-add_action('template_redirect', 'fester_add_free_gift');
+add_action('woocommerce_cart_updated', 'fester_add_free_gift');
 function fester_add_free_gift()
 {
     $freefood                  = 0;
@@ -175,7 +177,7 @@ function fester_add_free_gift()
     }
 }
 
-add_action('template_redirect', 'fester_remove_free_gift');
+add_action('woocommerce_cart_updated', 'fester_remove_free_gift');
 function fester_remove_free_gift()
 {
     $freegym                   = get_option('fstr_homegym');
